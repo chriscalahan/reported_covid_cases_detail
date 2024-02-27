@@ -47,13 +47,13 @@
 		total_ped_patients_hospitalized_conf_suspected_covid_coverage +
 		adult_icu_bed_covid_utilization_coverage) AS covid_cases_reported,
 	SUM(deaths_covid_coverage) AS covid_deaths_reported,
-    CONCAT('Q', QUARTER(record_date), ' ', DATE_FORMAT(record_date, '%Y')) AS period
+    	CONCAT('Q', QUARTER(record_date), ' ', DATE_FORMAT(record_date, '%Y')) AS period
 	FROM covid_influenza_data cid
 	JOIN state_data sd
 		ON cid.record_id = sd.record_id
 	WHERE deaths_covid_coverage > 0 and sd.state IN ('MI','DC','MT','MA','AL')
 	GROUP BY state, period
-    ORDER BY YEAR(period) ASC;
+    	ORDER BY YEAR(period) ASC;
     
 # Looking at COVID-19 confirmed cases by adult age for each state reported
 
@@ -132,11 +132,11 @@
 	ROUND((18_19/state_total) * 100, 2) AS 18_19_prcnt,
 	ROUND((20_29/state_total) * 100, 2) AS 20_29_prcnt,
 	ROUND((30_39/state_total) * 100, 2) AS 30_39_prcnt,
-    ROUND((40_49/state_total) * 100, 2) AS 40_49_prcnt,
+    	ROUND((40_49/state_total) * 100, 2) AS 40_49_prcnt,
 	ROUND((50_59/state_total) * 100, 2) AS 50_59_prcnt,
 	ROUND((60_69/state_total) * 100, 2) AS 60_69_prcnt,
-    ROUND((70_79/state_total) * 100, 2) AS 70_79_prcnt,
-    ROUND((above_80/state_total) * 100, 2) AS above_80_prcnt,
+    	ROUND((70_79/state_total) * 100, 2) AS 70_79_prcnt,
+    	ROUND((above_80/state_total) * 100, 2) AS above_80_prcnt,
 	ROUND((unk/state_total) * 100, 2) AS unk_prcnt,
 	state_total
 	FROM cte_adult;
@@ -188,7 +188,7 @@
 	YEAR(sd.record_date) AS years,
 	ROUND(AVG(inpatient_beds),2) AS avg_inp_avl, 
 	ROUND(AVG(inpatient_beds_used_covid),2) AS avg_inp_used,
-    ROUND(AVG(all_pediatric_inpatient_beds),2) AS avg_ped_avl, 
+    	ROUND(AVG(all_pediatric_inpatient_beds),2) AS avg_ped_avl, 
 	ROUND(AVG(all_pediatric_inpatient_bed_occupied),2) AS avg_ped_used
 	FROM bed_data bd
 	JOIN state_data sd
@@ -198,7 +198,7 @@
 	GROUP BY state, month_name, years
 	HAVING (avg_inp_avl != 0 OR avg_inp_avl != '' 
 	AND avg_inp_used != 0 OR avg_inp_used != '')
-    OR (avg_ped_avl != 0 OR avg_ped_avl != '' 
+    	OR (avg_ped_avl != 0 OR avg_ped_avl != '' 
 	AND avg_ped_used != 0 OR avg_ped_used != '');
 
 # Exploring daily staff shortages reported and anticpated shortages for week by # of hospitals per state
@@ -232,8 +232,8 @@
 # Exploring confirmed COVID-19 cases versus suspected with timeseries breakdown
 
 	SELECT YEAR(record_date) AS years,
-    CONCAT('Q',QUARTER(record_date)) AS qtr,
-    state,
+    	CONCAT('Q',QUARTER(record_date)) AS qtr,
+    	state,
 	SUM(previous_day_admission_adult_covid_conf) AS adult_conf,
 	SUM(previous_day_admission_adult_covid_suspected) AS adult_suspected,
 	SUM(previous_day_admission_pediatric_covid_conf) AS child_conf,
@@ -242,8 +242,8 @@
 	JOIN state_data sd
 		ON cid.record_id = sd.record_id
 	GROUP BY years, qtr, state
-    HAVING (adult_conf > 0 AND adult_suspected > 0)
-    OR (child_conf > 0 AND child_suspected > 0)
+    	HAVING (adult_conf > 0 AND adult_suspected > 0)
+    	OR (child_conf > 0 AND child_suspected > 0)
 	ORDER BY years, qtr, state;
     
 # DATA EXPLORATION COMPLETE
